@@ -1,0 +1,729 @@
+<html>
+<head>
+<title>QK-1 Z80 Trainer Computer</title>
+</head>
+<body>
+<style>
+table.screen {
+	border:1px solid #c6caca;
+	background:#c6caca;
+}
+th.shown {
+	border:1px solid #c6caca;
+	background:black;
+}
+th.hidden {
+	border:1px solid #c6caca;
+	background:#c6caca;
+}
+button.keypad {
+	width:72px;
+	height:50px;
+}
+</style>
+<!--<canvas id="panel" width="200" height="40px"></canvas>
+<button onclick="instruction_action()">step</button>
+<button onclick="alert(eval(prompt('code')))">eval</button>-->
+<center>
+<div style="border-style:solid;width:320px;padding:2px;background:#333333;">
+<div align="left"><i style="color:#ffffff;padding-left:10px;">QK-1 Dual Power 5v</i></div>
+<div id="screen">
+<table class="screen" style="border:3px solid black">
+	<tr>
+		<th class="hidden"></th>
+		<th id="d1_a" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d2_a" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d3_a" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d4_a" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d5_a" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d6_a" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d7_a" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d8_a" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+	</tr>
+	<tr>
+		<th id="d1_f" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d1_b" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d2_f" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d2_b" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d3_f" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d3_b" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d4_f" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d4_b" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d5_f" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d5_b" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d6_f" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d6_b" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d7_f" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d7_b" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d8_f" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d8_b" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+	</tr>
+	<tr>
+		<th class="hidden"></th>
+		<th id="d1_g" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d2_g" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d3_g" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d4_g" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d5_g" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d6_g" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d7_g" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+		
+		<th class="hidden"></th>
+		<th id="d8_g" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th class="hidden"></th>
+	</tr>
+	<tr>
+		<th id="d1_e" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d1_c" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d2_e" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d2_c" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d3_e" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d3_c" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d4_e" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d4_c" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d5_e" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d5_c" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d6_e" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d6_c" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d7_e" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d7_c" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+		
+		<th id="d8_e" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden" style="width:10px;height:4px;"></th>
+		<th id="d8_c" class="shown" style="width:1px;height:15px;"></th>
+		<th class="hidden"></th>
+	</tr>
+	<tr>
+		<th class="hidden"></th>
+		<th id="d1_d" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th id="d1_dp" class="shown" style="width:1px;height:1px;"></th>
+		
+		<th class="hidden"></th>
+		<th id="d2_d" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th id="d2_dp" class="shown" style="width:1px;height:1px;"></th>
+		
+		<th class="hidden"></th>
+		<th id="d3_d" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th id="d3_dp" class="shown" style="width:1px;height:1px;"></th>
+		
+		<th class="hidden"></th>
+		<th id="d4_d" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th id="d4_dp" class="shown" style="width:1px;height:1px;"></th>
+		
+		<th class="hidden"></th>
+		<th id="d5_d" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th id="d5_dp" class="shown" style="width:1px;height:1px;"></th>
+		
+		<th class="hidden"></th>
+		<th id="d6_d" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th id="d6_dp" class="shown" style="width:1px;height:1px;"></th>
+		
+		<th class="hidden"></th>
+		<th id="d7_d" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th id="d7_dp" class="shown" style="width:1px;height:1px;"></th>
+		
+		<th class="hidden"></th>
+		<th id="d8_d" class="shown" style="width:10px;height:4px;"></th>
+		<th class="hidden"></th>
+		<th id="d8_dp" class="shown" style="width:1px;height:1px;"></th>
+	</tr>
+</table>
+</div>
+<div id="buttons">
+	<table>
+		<tr>
+			<th><img src="./solar_panal.png" style="padding-right:18px;padding-left:5px;"></img></th>
+			<th><button class="keypad" id="b_ON" onclick="key_manager('b_ON')">ON</button></th>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<th><button class="keypad" id="b_D" onclick="key_manager('b_D')">D</button></th>
+			<th><button class="keypad" id="b_E" onclick="key_manager('b_E')">E</button></th>
+			<th><button class="keypad" id="b_F" onclick="key_manager('b_F')">F</button></th>
+			<th><button class="keypad" id="b_OFF" onclick="key_manager('b_OFF')">OFF</button></th>
+		</tr>
+		<tr>
+			<th><button class="keypad" id="b_A" onclick="key_manager('b_A')">A</button></th>
+			<th><button class="keypad" id="b_B" onclick="key_manager('b_B')">B</button></th>
+			<th><button class="keypad" id="b_C" onclick="key_manager('b_C')">C</button></th>
+			<th><button class="keypad" id="b_CE" onclick="key_manager('b_CE')">CE</button></th>
+		</tr>
+		<tr>
+			<th><button class="keypad" id="b_7" onclick="key_manager('b_7')">7</button></th>
+			<th><button class="keypad" id="b_8" onclick="key_manager('b_8')">8</button></th>
+			<th><button class="keypad" id="b_9" onclick="key_manager('b_9')">9</button></th>
+			<th><button class="keypad" id="b_RD" onclick="key_manager('b_RD')">RD</button></th>
+		</tr>
+		<tr>
+			<th><button class="keypad" id="b_4" onclick="key_manager('b_4')">4</button></th>
+			<th><button class="keypad" id="b_5" onclick="key_manager('b_5')">5</button></th>
+			<th><button class="keypad" id="b_6" onclick="key_manager('b_6')">6</button></th>
+			<th><button class="keypad" id="b_WR" onclick="key_manager('b_WR')">WR</button></th>
+		</tr>
+		<tr>
+			<th><button class="keypad" id="b_1" onclick="key_manager('b_1')">1</button></th>
+			<th><button class="keypad" id="b_2" onclick="key_manager('b_2')">2</button></th>
+			<th><button class="keypad" id="b_3" onclick="key_manager('b_3')">3</button></th>
+			<th><button class="keypad" id="b_?" onclick="key_manager('b_?')">?</button></th>
+		</tr>
+		<tr>
+			<th><button class="keypad" id="b_0" onclick="key_manager('b_0')">0</button></th>
+			<th><button class="keypad" id="b_A-" onclick="key_manager('b_A-')">A-</button></th>
+			<th><button class="keypad" id="b_A+" onclick="key_manager('b_A+')">A+</button></th>
+			<th><button class="keypad" id="b_GO" onclick="key_manager('b_GO')">GO</button></th>
+		</tr>
+	</table>
+</div>
+</div>
+<p id="a">Cartridge ($1000-$1fff):<select id="cart">
+	<option value="empty">Empty</option>
+	<option value="numattack">Number Attack!</option>
+	<option value="battery_sram">4k SRAM</option>
+</select>
+<button onclick="bank_manager('cart')">Set Cart</button>
+<button onclick="cart_extract()">Extract</button>
+<button onclick="cart_insert()">Insert</button>
+</p>
+
+</center>
+</body>
+<script src="./Z80.js"></script>
+<script src="./rom.js"></script>
+<script src="./resources.js"></script>
+<script>
+/*var ctx=document.getElementById("panel").getContext("2d");
+ctx.fillStyle="#6b370c";
+ctx.fillRect(0,0,200,40);
+ctx.fillStyle="#cccccc";
+for(var i=0;i<200;i+=200/10){
+	ctx.fillRect(i,0,2,40);
+}*/
+function key_manager(x){
+	//alert(x);
+	switch(x){
+		case "b_ON"://on,reset
+			qk1.reset();
+			break;
+		case "b_0":
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[1,0,0,0],
+				];
+			break;
+		case "b_1":
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[1,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_2":
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,1,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_3":
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,1,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_4":
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[1,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_5":
+		keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,1,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_6":
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,1,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_7":
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[1,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_8":
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,1,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_9":
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,1,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_A":
+			keys=[
+				[0,0,0,0],
+				[1,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_B":
+			keys=[
+				[0,0,0,0],
+				[0,1,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_C":
+			keys=[
+				[0,0,0,0],
+				[0,0,1,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_D":
+			keys=[
+				[1,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_E":
+			keys=[
+				[0,1,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_F":
+			keys=[
+				[0,0,1,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_GO":
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,1],
+				];
+			break;
+		case "b_OFF":
+			keys=[
+				[0,0,0,1],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_CE"://Clear Entry
+			keys=[
+				[0,0,0,0],
+				[0,0,0,1],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_RD"://Read
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,1],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_WR"://Write
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,1],
+				[0,0,0,0],
+				[0,0,0,0],
+				];
+			break;
+		case "b_?"://User definable key, (function key)
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,1],
+				[0,0,0,0],
+				];
+			break;
+		case "b_A-"://Address decrement
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,1,0,0],
+				];
+			break;
+		case "b_A+"://Address Increment
+			keys=[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,1,0],
+				];
+			break;
+	}
+}
+
+function draw_digit(digit,seg_data){
+//"d"+digit_num+"_"+segment
+//data: %00000000: %A,B,C,D,E,F,G,DP
+	document.getElementById("d"+digit+"_a").style.backgroundColor=(seg_data&0b10000000)? "black":"#c6caca";
+	document.getElementById("d"+digit+"_b").style.backgroundColor=(seg_data&0b01000000)? "black":"#c6caca";
+	document.getElementById("d"+digit+"_c").style.backgroundColor=(seg_data&0b00100000)? "black":"#c6caca";
+	document.getElementById("d"+digit+"_d").style.backgroundColor=(seg_data&0b00010000)? "black":"#c6caca";
+	document.getElementById("d"+digit+"_e").style.backgroundColor=(seg_data&0b00001000)? "black":"#c6caca";
+	document.getElementById("d"+digit+"_f").style.backgroundColor=(seg_data&0b00000100)? "black":"#c6caca";
+	document.getElementById("d"+digit+"_g").style.backgroundColor=(seg_data&0b00000010)? "black":"#c6caca";
+	document.getElementById("d"+digit+"_dp").style.backgroundColor=(seg_data&0b00000001)? "black":"#c6caca";
+}
+var keypad_selection=0;
+function set_keypad_selection(val){
+	keypad_selection=val & 0b00000011;
+}
+function get_keypad_states(){
+	var key_states=0b00000000;
+	var select1=0;
+	var select2=1;
+	switch(keypad_selection){
+		case 0:
+			select1=0;
+			select2=1;
+			break;
+		case 1:
+			select1=2;
+			select2=3;
+			break;
+		case 2:
+			select1=4;
+			select2=5;
+			break;
+	}
+	key_states=keys[select1][0]<<7 | keys[select1][1]<<6 | keys[select1][2]<<5 | keys[select1][3]<<4 | 
+		keys[select2][0]<<3 | keys[select2][1]<<2 | keys[select2][2]<<1 | keys[select2][3]<<0;
+	//keys=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+	return key_states;
+}
+
+function tick(){
+	for(var i=0;i<500;i++){//~200khz
+	qk1.run_instruction();
+	}
+	keys=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],]
+}
+//45khz,200khz
+//200khz=200000 cycles a second. 200k/100=2000 times
+
+function bank_manager(x){
+	switch(document.getElementById('cart').value){
+		case 'numattack':
+			writable_cart=false;
+			for(var i=0;i<numattack.length;i+=2){
+				cart[j]=eval("0x"+numattack[i]+numattack[i+1]);
+			j++;
+			}
+			break;
+		case 'empty':
+			writable_cart=false;
+			cart.fill(0);
+			break;
+		case 'battery_sram':
+			writable_cart=true;
+			cart.fill(0);
+			break;
+	}
+}
+
+function cart_extract(){
+	var cart_string="";
+	for(var i=0;i<cart.length;i++){
+		cart_string+=cart[i].toString(16);
+	}
+	prompt("Cart hex",cart_string);
+}
+
+function cart_insert(){
+	if(writable_cart==false){
+		alert("Read only");
+		return;
+	}
+	var cart_string=prompt("Hex?");
+	var j=0;
+	for(var i=0;i<cart_string.length&&i<cart.length;i+=2){
+		cart[j]=eval("0x"+cart_string[i]+cart_string[i+1]);
+		j++;
+	}
+}
+
+function keyboard_manager(x){
+	//alert(x);
+	switch(x){
+		case 49://1
+			key_manager("b_1");
+			break;
+		case 50://2
+			key_manager("b_2");
+			break;
+		case 51://3
+			key_manager("b_3");
+			break;
+		case 52://4
+			key_manager("b_4");
+			break;
+		case 53://5
+			key_manager("b_5");
+			break;
+		case 54://6
+			key_manager("b_6");
+			break;
+		case 55://7
+			key_manager("b_7");
+			break;
+		case 56://8
+			key_manager("b_8");
+			break;
+		case 57://9
+			key_manager("b_9");
+			break;
+		case 48://0
+			key_manager("b_0");
+			break;
+		case 65://a
+			key_manager("b_A");
+			break;
+		case 66://b
+			key_manager("b_B");
+			break;
+		case 67://c
+			key_manager("b_C");
+			break;
+		case 68://d
+			key_manager("b_D");
+			break;
+		case 69://e
+			key_manager("b_E");
+			break;
+		case 70://f
+			key_manager("b_F");
+			break;
+		case 189://-
+			key_manager("b_A-");
+			break;
+		case 187://=,+
+			key_manager("b_A+");
+			break;
+		case 13://enter
+			key_manager("b_WR");
+			break;
+		case 191:// /,?
+			key_manager("b_?");
+			break;
+		case 32:// Space
+			key_manager("b_GO");
+			break;
+		case 8://backspace
+			key_manager("b_CE");
+			break;
+		case 220:// \
+			key_manager("b_RD");
+			break;
+	}
+}
+setInterval(function(){tick()},100);
+window.onload=function(){
+	document.getElementsByTagName('body')[0].onkeydown=function (e){
+		keyboard_manager(e.keyCode);
+	}
+};
+</script>
+</html>

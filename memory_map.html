@@ -1,0 +1,110 @@
+<html>
+<head>
+<title>QK-1 Z80 Trainer Memory/IO Map</title>
+</head>
+<body>
+<style>
+table {
+	border:1px solid #aaaaaa
+}
+tr {
+	border:1px solid #aaaaaa
+}
+th {
+	border:1px solid #aaaaaa
+}
+</style>
+<center>
+<h1>Memory</h1>
+<table>
+	<tr>
+		<th>Addr Start</th>
+		<th>Addr End</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<th>$0000</th>
+		<th>$0fff</th>
+		<th>Base ROM</th>
+	</tr>
+	<tr>
+		<th>$1000</th>
+		<th>$1fff</th>
+		<th>Cartridge address space. Can be rom, ram, whatever! The line "CART_SEL" (active low) is set active when the CPU accesses this part of the memory address. Cartridges may include their own address decoding (which includes IO address space stuff) by "piggybacking" off the cartridge bus (which includes the system bus).</th>
+	</tr>
+	<tr>
+		<th>$2000</th>
+		<th>$3fff</th>
+		<th>Base RAM. 8KiB of SRAM is included stock. It is located on the silicon die of the QK-1 SOC itself.</th>
+	</tr>
+</table>
+<h1>IO</h1>
+<table>
+	<tr>
+		<th>Port Address</th>
+		<th>Name</th>
+		<th>Description</th>
+		<th>Usage</th>
+	</tr>
+	<tr>
+		<th>$00</th>
+		<th>Keypad Port</th>
+		<th>Drives the rows and columns of the keypad and to read pressed keys.</th>
+		<th>Writing: The two lowest bits select the row lines. Reading: Reads the 8 keys selected by the row selection. All bits are used. (See Figure 0)</th>
+	</tr>
+	<tr>
+		<th>$01</th>
+		<th>Digit 1 Port</th>
+		<th>Used to refresh the display.</th>
+		<th>Writing: Sets the eight byte value to their corresponding segments. Reading: Turns all segments off.</th>
+	</tr>
+	<tr>
+		<th>$02</th>
+		<th>Digit 1 Port</th>
+		<th>Used to refresh the display.</th>
+		<th>Writing: Sets the eight byte value to their corresponding segments. Reading: Turns all segments off.</th>
+	</tr>
+	<tr>
+		<th>$03</th>
+		<th>Digit 1 Port</th>
+		<th>Used to refresh the display.</th>
+		<th>Writing: Sets the eight byte value to their corresponding segments. Reading: Turns all segments off.</th>
+	</tr>
+	<tr>
+		<th>$04</th>
+		<th>Digit 1 Port</th>
+		<th>Used to refresh the display.</th>
+		<th>Writing: Sets the eight byte value to their corresponding segments. Reading: Turns all segments off.</th>
+	</tr>
+	<tr>
+		<th>$05</th>
+		<th>Digit 1 Port</th>
+		<th>Used to refresh the display.</th>
+		<th>Writing: Sets the eight byte value to their corresponding segments. Reading: Turns all segments off.</th>
+	</tr>
+	<tr>
+		<th>$06</th>
+		<th>Digit 1 Port</th>
+		<th>Used to refresh the display.</th>
+		<th>Writing: Sets the eight byte value to their corresponding segments. Reading: Turns all segments off.</th>
+	</tr>
+	<tr>
+		<th>$07</th>
+		<th>Digit 1 Port</th>
+		<th>Used to refresh the display.</th>
+		<th>Writing: Sets the eight byte value to their corresponding segments. Reading: Turns all segments off.</th>
+	</tr>
+	<tr>
+		<th>$08</th>
+		<th>Digit 1 Port</th>
+		<th>Used to refresh the display.</th>
+		<th>Writing: Sets the eight byte value to their corresponding segments. Reading: Turns all segments off.</th>
+	</tr>
+</table>
+<figure>
+<img src="./keypad.png"></img>
+<figcaption>Figure 0. Keypad IO interface diagram.</figcaption>
+</figure>
+</center>
+</body>
+</html>

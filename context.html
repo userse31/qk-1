@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>QK-1 Reasoning for Existance</title>
+</head>
+<body>
+<center>
+<b>Abstract</b>
+<p>Think about your "dream computer". If your <i>normal</i> it's probably a contemporary gaming PC.</p>
+<p>Not me though. Oh no! That would make too much sense!</p>
+
+<!-- Qwerty Keyboard's 8 steps to manufactured ewaste! -->
+
+<b>Sharp EL506P Clones and Dollar Tree</b>
+<p>For a handful of years, Dollar Tree sold Sharp EL506P clones (Branded "Jot Scientific Calculator", "56 function Electronic Calculator"). Unfortunately, I believe their discontinued now. Damn shame, because those things where AWESOME!</p>
+<p>Back when I was in 9th grade, (so, ~2019?) I looked at one of these and went "you know, there's probably a full fledged program rom based computer in there!"</p>
+<i>Sidebar</i>
+<p>Which, raises the question "Are the Sharp clones finite state machines or turing machines?" with the answer being <i>maybe some specimens?</i> Rule number one of China is that all their generic products are bootlegs of some initial product. Yes. ALL of them!</p>
+<p>Rule number two of China is that domestically produced bootleg products are NOT immune from being bootlegged, meaning several, mostly functionally equivalent, designs exist for the same product. Yes, this applies to silicon die layouts too. It IS feasable that some EL506P clone chip exists out their that has more in common with the TI-7. My microscope slide specimen seems to be a finite state machine, and is different from the one ElectronUpdate decapped.</p>
+<i>Alright, sidebar over.</i>
+<p>But, wouldn't it be great if these calculators where instead general purpose computers? (Yes, I know about smartphones, SHUT UP) And thus, the QK-1!</p>
+<b>Step 1: Secure the Keys!</b>
+<p>The idea? Take (what is essentially) an 8 bit home microcomputer from the late 70s/early 80s and *CRUSH* it all down onto a single silicon die. Do all the same cost reductions we already do with 4 function calculators (like using COB IC "packaging" technology) for <b>*ULTRA*</b> cost reduction, throw a solar panel on it, and Bob's your uncle! Originally the ultimate end MSRP was $1, but with how late state capitalism is shitting itself faster and faster, it wouldn't even be ABLE to cost only $1! (Hell, the 4 function calculators THEMSELVES are rising in MSRP!). ~$5 seems like a reasonable super late game goal.</p>
+<p>But, what "super family" of an architecture would I go with?</p>
+<b>Trying the 6502</b>
+<p>The venerable 6502 was the FIRST cpu to pop into my head. (thanks David Murry...)</p>
+<p>The 6502 presents quite a few benefits. It's pipeline is fairly efficient, with instuctions taking ~2 clock cycles to execute. It's simple both in software AND hardware. It implements a fairly small set of general purpose instructions, with the design of the 6502 in silicon reflecting that by both being simple and having a small footprint (Smaller design=more chips from wafer=increased yield=lower cost per chip=Me getting a manufacturing nerd orgasm).</p>
+<p>Thing is, I don't like the 6502's programming model. I don't like it's assembly language. Tried getting into it, but only having three general purpose registers means your constantly moving crap from the registers to either BANK0 or somewhere in memory where you'll <i>probably</i> forget about it 6 months later.</p>
+<b>The Z80</b>
+<p>Well, whats the second most known vintage CPU? The Z80!</p>
+</center>
+</body>
+<html>

@@ -1,0 +1,461 @@
+org $0000
+_init:
+     LD A,$02
+     OUT ($00),A
+     XOR A
+     NOP
+     JR main
+optional_reset1:
+     LD HL,$2000
+     LD B,(HL)
+     INC HL
+     LD C,(HL)
+     PUSH BC
+     RET
+optional_reset2:
+     LD HL,$2002
+     LD B,(HL)
+     INC HL
+     LD C,(HL)
+     PUSH BC
+     RET
+optional_reset3:
+     LD HL,$2004
+     LD B,(HL)
+     INC HL
+     LD C,(HL)
+     PUSH BC
+     RET
+optional_reset4:
+     LD HL,$2006
+     LD B,(HL)
+     INC HL
+     LD C,(HL)
+     PUSH BC
+     RET
+optional_reset5:
+     LD HL,$2008
+     LD B,(HL)
+     INC HL
+     LD C,(HL)
+     PUSH BC
+     RET
+optional_reset6:
+     LD HL,$200a
+     LD B,(HL)
+     INC HL
+     LD C,(HL)
+     PUSH BC
+     RET
+optional_reset7:
+     LD HL,$200c
+     LD B,(HL)
+     INC HL
+     LD C,(HL)
+     PUSH BC
+     RET
+main:
+     IN A,($00)
+     CP $10
+     JP Z,diagnostics	;Check if certain keys are presse
+     LD SP,$3fff	;Set Stack Pointer to end of buil
+     EXX
+     LD HL,$00	;HL': Monitor address
+     LD BC,$00	;BC': Monitor typing buffer
+     LD D,$00	;D': Buffer Pointer
+     EXX
+LAB_ram_0054:
+     CALL DRAW_DISPLAY
+key_manager:
+     LD A,$01	;Set row 1.
+     OUT ($00),A
+     XOR A
+     IN A,($00)
+     CP $80	;7
+     JP Z,TYPE_7
+     CP $40	;8
+     JP Z,TYPE_8
+     CP $20	;9
+     JP Z,TYPE_9
+     CP $10	;RD
+     JP Z,READ_ADDR
+     CP $08	;4
+     JP Z,TYPE_4
+     CP $04	;5
+     JP Z,TYPE_5
+     CP $02	;6
+     JP Z,TYPE_6
+     CP $01	;WR
+     JP Z,WRITE_DATA
+     LD A,$02	;Set row 2
+     OUT ($00),A
+     XOR A
+     IN A,($00)
+     CP $80	;1
+     JP Z,TYPE_1
+     CP $40	;2
+     JP Z,TYPE_2
+     CP $20	;3
+     JP Z,TYPE_3
+     CP $08	;0
+     JP Z,TYPE_0
+     CP $04	;A-
+     JP Z,ADDR_DEC
+     CP $02	;A+
+     JP Z,ADDR_INC
+     CP $01	;GO
+     JR Z,_GO
+     XOR A
+     OUT ($00),A	;Set row 0
+     XOR A
+     IN A,($00)
+     CP $80	;D
+     JR Z,TYPE_D
+     CP $40	;E
+     JR Z,TYPE_E
+     CP $20	;F
+     JR Z,TYPE_F
+     CP $10	;OFF
+     JR Z,TURN_OFF
+     CP $08	;A
+     JR Z,TYPE_A
+     CP $04	;B
+     JR Z,TYPE_B
+     CP $02	;C
+     JR Z,TYPE_C
+     CP $01	;CE
+     JR Z,CLEAR_ENTRY
+     JP key_manager
+LAB_ram_00d8:
+     JR LAB_ram_00d8
+TYPE_D:
+     LD A,$0d
+     CALL TYPE_NUMBER
+     JR LAB_ram_0112
+TYPE_E:
+     LD A,$0e
+     CALL TYPE_NUMBER
+     JR LAB_ram_0112
+TYPE_F:
+     LD A,$0f
+     CALL TYPE_NUMBER
+     JR LAB_ram_0112
+TURN_OFF:
+     XOR A
+     IN A,($01)
+     IN A,($02)
+     IN A,($03)
+     IN A,($04)
+     IN A,($05)
+     IN A,($06)
+     IN A,($07)
+     IN A,($08)
+     HALT
+     JP LAB_ram_0054
+TYPE_A:
+     LD A,$0a
+     CALL TYPE_NUMBER
+     JR LAB_ram_0112
+TYPE_B:
+     LD A,$0b
+     CALL TYPE_NUMBER
+     JR Software_Debounce
+LAB_ram_0112:
+     JR Software_Debounce
+TYPE_C:
+     LD A,$0c
+     CALL TYPE_NUMBER
+     JR Software_Debounce
+CLEAR_ENTRY:
+     EXX
+     LD BC,$00
+     LD D,$00
+     EXX
+     JR Software_Debounce
+_GO:
+     EXX
+     PUSH BC
+     EXX
+     RET
+     RST $00
+ADDR_INC:
+     EXX
+     INC HL
+     EXX
+     JR Software_Debounce
+TYPE_7:
+     LD A,$07
+     CALL TYPE_NUMBER
+     JR Software_Debounce
+TYPE_8:
+     LD A,$08
+     CALL TYPE_NUMBER
+     JR Software_Debounce
+TYPE_9:
+     LD A,$09
+     CALL TYPE_NUMBER
+     JR Software_Debounce
+READ_ADDR:
+     EXX
+     PUSH BC
+     POP HL	;Put input buffer into current ad
+     LD D,$00
+     EXX
+     JR Software_Debounce
+TYPE_4:
+     LD A,$04
+     CALL TYPE_NUMBER
+     JR Software_Debounce
+TYPE_5:
+     LD A,$05
+     CALL TYPE_NUMBER
+     JR Software_Debounce
+TYPE_6:
+     LD A,$06
+     CALL TYPE_NUMBER
+     JR Software_Debounce
+WRITE_DATA:
+     EXX
+     LD (HL),B
+     LD BC,$00
+     LD D,$00
+     INC HL
+     EXX
+     JR Software_Debounce
+TYPE_1:
+     LD A,$01
+     CALL TYPE_NUMBER
+     JR Software_Debounce
+TYPE_2:
+     LD A,$02
+     CALL TYPE_NUMBER
+     JR Software_Debounce
+TYPE_3:
+     LD A,$03
+     CALL TYPE_NUMBER
+     JR Software_Debounce
+TYPE_0:
+     LD A,$00
+     CALL TYPE_NUMBER
+     JR Software_Debounce
+ADDR_DEC:
+     EXX
+     DEC HL
+     EXX
+     JR Software_Debounce
+Software_Debounce:
+     LD A,$00
+     OUT ($00),A
+     XOR A
+     IN A,($00)
+     CP $00
+     JR NZ,Software_Debounce
+     LD A,$01
+     OUT ($00),A
+     XOR A
+     IN A,($00)
+     CP $00
+     JR NZ,Software_Debounce
+     LD A,$02
+     OUT ($00),A
+     XOR A
+     IN A,($00)
+     CP $00
+     JR NZ,Software_Debounce
+     JP LAB_ram_0054
+FUN_ram_01b0:
+     XOR A
+     IN A,($01)
+     IN A,($02)
+     IN A,($03)
+     IN A,($04)
+     IN A,($05)
+     IN A,($06)
+     IN A,($07)
+     IN A,($08)
+     RET
+itoa0: 
+     LD B,$00	;(C&0b11110000)->C
+     SRL C
+     SRL C
+     SRL C
+     SRL C
+     LD HL,FONT
+     ADD HL,BC
+     LD A,(HL)
+     RET
+itoa1:
+     LD B,$00	;(C&0b00001111)->C
+     AND $f
+     LD C,A
+     LD HL,FONT
+     ADD HL,BC
+     LD A,(HL)	;= FCh
+     RET
+DRAW_DISPLAY:
+     CALL FUN_ram_01b0
+     EXX
+     PUSH HL
+     EXX
+     POP DE
+     LD B,$00
+     LD C,D
+     CALL itoa0
+     OUT ($01),A
+     LD A,D
+     CALL itoa1
+     OUT ($02),A
+     LD C,E
+     CALL itoa0
+     OUT ($03),A
+     LD A,E
+     CALL itoa1
+     OR $01
+     OUT ($04),A
+     EXX
+     PUSH BC
+     PUSH DE
+     EXX
+     POP AF
+     POP DE
+     CP $00
+     JP Z,PRINT_MEMORY
+     CP $01
+     JR Z,INPUT_DIGIT0
+     CP $02
+     JR Z,INPUT_DIGIT1
+     CP $03
+     JR Z,INPUT_DIGIT2
+     LD A,E
+     CALL itoa1
+     OUT ($08),A
+INPUT_DIGIT2:
+     LD C,E
+     CALL itoa0
+     OUT ($07),A
+INPUT_DIGIT1:
+     LD A,D
+     CALL itoa1
+     OUT ($06),A
+INPUT_DIGIT0:
+     LD C,D
+     CALL itoa0
+     OUT ($05),A
+     RET
+PRINT_MEMORY:
+     EXX
+     PUSH HL
+     EXX
+     POP IX
+     LD C,(IX+$0)
+     CALL itoa0
+     OUT ($07),A
+     LD A,(IX+$0)
+     CALL itoa1
+     OUT ($08),A
+     RET
+TYPE_NUMBER: 
+     EXX
+     PUSH BC
+     PUSH DE
+     EXX
+     POP DE
+     POP BC
+     LD E,A
+     LD A,D
+     CP $00
+     JR Z,BUFFER_FIRST_POS
+     CP $01
+     JR Z,BUFFER_SECOND_POS
+     CP $02
+     JR Z,BUFFER_THIRD_POS
+     CP $03
+     JR Z,BUFFER_FOURTH_POS
+     RET
+BUFFER_FIRST_POS:
+     LD A,B
+     AND $0f
+     SLA E
+     SLA E
+     SLA E
+     SLA E
+     OR E
+     LD B,A
+     PUSH BC
+     LD D,$01
+     JR TYPE_NUMBER_END
+BUFFER_SECOND_POS:
+     LD A,B
+     AND $f0
+     OR E
+     LD B,A
+     PUSH BC
+     LD D,$02
+     JR TYPE_NUMBER_END
+BUFFER_THIRD_POS:
+     LD A,C
+     AND $0f
+     SLA E
+     SLA E
+     SLA E
+     SLA E
+     OR E
+     LD C,A
+     PUSH BC
+     LD D,$03
+     JR TYPE_NUMBER_END
+BUFFER_FOURTH_POS:
+     LD A,C
+     AND $f0
+     OR E
+     LD C,A
+     PUSH BC
+     LD D,$04
+TYPE_NUMBER_END:
+     PUSH DE
+     EXX
+     POP DE
+     POP BC
+     EXX
+     RET
+diagnostics:
+     LD A,$01
+diagnostics1:
+     OUT ($01),A
+     OUT ($02),A
+     OUT ($03),A
+     OUT ($04),A
+     OUT ($05),A
+     OUT ($06),A
+     OUT ($07),A
+     OUT ($08),A
+     RRA
+     JR diagnostics1
+FONT:
+	db $FC	;0
+	db $60	;1
+	db $DA	;2
+	db $F2	;3
+	db $66	;4
+	db $B6	;5
+	db $BE	;6
+	db $E4	;7
+	db $FE	;8
+	db $F6	;9
+	db $EE	;A
+	db $3E	;B
+	db $9C	;C
+	db $7A	;D
+	db $9E	;E
+	db $8E	;F
+	db $00	;Space
+     LD IY,$2000
+     LD B,$e
+memcpy:
+     LD A,(IX+$0)
+     LD (IY+$0),A
+     INC IX
+     INC IY
+     DEC B
+     JR NZ,memcpy
+     RET

@@ -292,7 +292,7 @@ button.keypad {
 <button onclick="cart_extract()">Extract</button>
 <button onclick="cart_insert()">Insert</button>
 </p>
-
+<a href="./memory_map.html">Memory Map</a></br><a href="./context.html">QK-1 Reasoning for Existance</a>
 </center>
 </body>
 <script src="./Z80.js"></script>
@@ -608,10 +608,11 @@ function bank_manager(x){
 	switch(document.getElementById('cart').value){
 		case 'numattack':
 			writable_cart=false;
-			for(var i=0;i<numattack.length;i+=2){
+			/*for(var i=0;i<numattack.length;i+=2){
 				cart[j]=eval("0x"+numattack[i]+numattack[i+1]);
 			j++;
-			}
+			}*/
+			cart=numattack;
 			break;
 		case 'empty':
 			writable_cart=false;

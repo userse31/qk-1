@@ -32,9 +32,12 @@ nop
 */
 //var rom="DB01DB02DB03DB04DB05DB06DB07DB08";
 var j=0;
-for(var i=0;i<rom.length;i+=2){
+/*for(var i=0;i<rom.length;i+=2){
 	base_rom[j]=eval("0x"+rom[i]+rom[i+1]);
 	j++;
+}*/
+for(var i=0;i<rom.length;i++){
+	base_rom[i]=rom[i];
 }
 j=0;
 /*for(var i=0;i<numattack.length;i+=2){

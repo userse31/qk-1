@@ -1,0 +1,921 @@
+org $0000
+_reset:;reset vector
+	jr _init;2
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+_rst_08:
+	;jp $E008;3
+	nop
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+_rst_10:
+	;jp $E010;3
+	nop
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+_rst_18:
+	;jp $E018;3
+	nop
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+_rst_20:
+	;jp $E020;3
+	nop
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+_rst_28:
+	;jp $E028;3
+	nop
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+_rst_30:
+	jp $E030;3
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+_rst_38:
+	jp $E038;3
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+	nop;1
+_init:
+	di;Disable inturrupts
+	;Check if [?] key is held down. If so, enter diagnostics/selftest "mode".
+	in a,($0b);2
+	and %00111111;2
+	cp %00101111;[?];2
+	jp z,_diagnostics
+	;Check if base of cartridge rom ($2000) contains the magic number. But, if [CE] is held down, don't autoboot.
+	in a,($0B)
+	and %00111111
+	cp %00111101
+	jr z,_init0
+	ld ix,_cart_header
+	ld iy,$2000
+	ld a,(ix+0)
+	cp (iy+0)
+	jp nz,_init0
+	ld a,(ix+1)
+	cp (iy+1)
+	jp nz,_init0
+	ld a,(ix+2)
+	cp (iy+2)
+	jp nz,_init0
+	ld a,(ix+3)
+	cp (iy+3)
+	jp z,$2004
+
+_init0:
+	ld sp,$FFFF;Set stack pointer to top of base RAM.
+	exx
+	ld hl,$0000;Initial monitor address
+	ld bc,0;Input buffer
+	ld d,0;Input buffer offset
+	exx
+_main:
+	;Print current address to left hand side of the screen.
+	exx
+	push hl
+	exx
+	pop de
+	ld a,d
+	call _gadget1
+	out ($00),a
+	ld a,d
+	call _gadget2
+	out ($01),a
+	ld a,e
+	call _gadget1
+	out ($02),a
+	ld a,e
+	call _gadget2
+	or %00000001
+	out ($03),a
+;Obtain current input buffer offset. If zero, print value of current memory address. If not, print the input buffer.
+	exx
+	push de
+	exx
+	pop de
+	ld a,d
+	cp 0
+	jp nz,_print_buffer
+	exx
+	push hl
+	exx
+	pop ix
+	ld a,(ix+0)
+	call _gadget1
+	out ($06),a
+	ld a,(ix+0)
+	call _gadget2
+	out ($07),a
+_keypad_scan:
+	in a,($08)
+	and %00111111
+	cp %00011111
+	jp z,_type0;[0]
+	cp %00101111
+	jp z,_type1;[1]
+	cp %00110111;[4]
+	jp z,_type4
+	cp %00111011;[7]
+	jp z,_type7
+	cp %00111101;[A]
+	jp z,_typeA
+	cp %00111110;[D]
+	jp z,_typeD
+
+	in a,($09)
+	and %00111111
+	cp %00011111;[A-]
+	jp z,_addr_dec;
+	cp %00101111;[2]
+	jp z,_type2
+	cp %00110111;[5]
+	jp z,_type5
+	cp %00111011;[8]
+	jp z,_type8
+	cp %00111101;[B]
+	jp z,_typeB
+	cp %00111110;[E]
+	jp z,_typeE
+
+	in a,($0A)
+	and %00111111
+	cp %00011111;[A+]
+	jp z,_addr_inc;
+	cp %00101111;[3]
+	jp z,_type3
+	cp %00110111;[6]
+	jp z,_type6
+	cp %00111011;[9]
+	jp z,_type9
+	cp %00111101;[C]
+	jp z,_typeC
+	cp %00111110;[F]
+	jp z,_typeF
+
+	in a,($0B)
+	and %00111111
+	cp %00011111;[GO]
+	jp z,_go;
+	cp %00101111;[?]
+	jp z,_user_defined
+	cp %00110111;[WR]
+	jp z,_write_value
+	cp %00111011;[RD]
+	jp z,_set_addr
+	cp %00111101;[CE]
+	jp z,_clear_input
+	cp %00111110;[OFF]
+	jp z,_off
+	jp _main
+
+
+_type_value: 
+     EXX
+     PUSH BC;Input buffer
+     PUSH DE;Buffer index
+     EXX
+     POP DE
+     POP BC
+     LD E,A
+     LD A,D
+     CP $00
+     JR Z,BUFFER_FIRST_POS
+     CP $01
+     JR Z,BUFFER_SECOND_POS
+     CP $02
+     JR Z,BUFFER_THIRD_POS
+     CP $03
+     JR Z,BUFFER_FOURTH_POS
+     RET
+BUFFER_FIRST_POS:
+     LD A,B
+     call _gadget3
+     LD B,A
+     PUSH BC
+     LD D,$01
+     JR TYPE_NUMBER_END
+BUFFER_SECOND_POS:
+     LD A,B
+     AND $f0
+     OR E
+     LD B,A
+     PUSH BC
+     LD D,$02
+     JR TYPE_NUMBER_END
+BUFFER_THIRD_POS:
+     LD A,C
+     call _gadget3
+     LD C,A
+     PUSH BC
+     LD D,$03
+     JR TYPE_NUMBER_END
+BUFFER_FOURTH_POS:
+     LD A,C
+     AND $f0
+     OR E
+     LD C,A
+     PUSH BC
+     LD D,$04
+TYPE_NUMBER_END:
+     PUSH DE
+     EXX
+     POP DE
+     POP BC
+     EXX
+     RET
+
+_gadget3:
+	AND $0f
+	SLA E
+	SLA E
+	SLA E
+	SLA E
+	OR E
+	ret
+
+_type0:
+	ld a,0
+	jr _gadget0
+_type1:
+	ld a,1
+	jr _gadget0
+_type2:
+	ld a,2
+	jr _gadget0
+_type3:
+	ld a,$03
+	jr _gadget0
+_type4:
+	ld a,$04
+	jr _gadget0
+_type5:
+	ld a,$05
+	jr _gadget0
+_type6:
+	ld a,$06
+	jr _gadget0
+_type7:
+	ld a,$07
+	jr _gadget0
+_type8:
+	ld a,$08
+	jr _gadget0
+_type9:
+	ld a,$09
+	jr _gadget0
+_typeA:
+	ld a,$0a
+	jr _gadget0
+_typeB:
+	ld a,$0b
+	jr _gadget0
+_typeC:
+	ld a,$0c
+	jr _gadget0
+_typeD:
+	ld a,$0d
+	jr _gadget0
+_typeE:
+	ld a,$0e
+	jr _gadget0
+_typeF:
+	ld a,$0f
+_gadget0:
+	call _type_value
+	jp _debounce_loop
+_off:
+	halt
+_clear_input:
+	exx
+	ld bc,0
+	ld d,0
+	exx
+	jp _debounce_loop
+_set_addr:
+	exx
+	ld h,b
+	ld l,c
+	ld bc,0
+	ld d,0
+	exx
+	jp _debounce_loop
+_write_value:
+	exx
+	push hl
+	push bc
+	ld bc,0
+	ld d,0
+	inc hl
+	exx
+	pop bc
+	pop hl
+	ld (hl),b
+	jp _debounce_loop
+_user_defined:
+	jp _debounce_loop
+_go:
+	exx
+	push bc
+	exx
+	ret
+	jp _debounce_loop
+_addr_dec:
+	exx
+	dec hl
+	exx
+	jp _debounce_loop
+_addr_inc:
+	exx
+	inc hl
+	exx
+	jp _debounce_loop
+_debounce_loop:;Implements button debouncing in software instead of software for further cost reduction.
+	ld hl,$2000;Will depend based on clock speed. We want to enable holding buttons for repeating actions, but we also don't want to piss away everyone's time.
+_debounce_loop1:
+	dec hl
+	ld a,h
+	cp 0
+	jr nz,_debounce_loop1
+	ld a,l
+	cp 0
+	jr nz,_debounce_loop1
+	jp _main
+
+_print_buffer:
+	exx
+	push de
+	push bc
+	exx
+	pop bc
+	pop de
+	ld a,d
+	cp 3
+	jr z,_digit3
+	cp 2
+	jr z,_digit2
+	cp 1
+	jr z,_digit1
+_digit4:
+	ld a,c
+	push bc
+	call _gadget2
+	out ($07),a
+	pop bc
+_digit3:
+	ld a,c
+	push bc
+	call _gadget1
+	out ($06),a
+	pop bc
+_digit2:
+	ld a,b
+	push bc
+	call _gadget2
+	out ($05),a
+	pop bc
+_digit1:
+	ld a,b
+	call _gadget1
+	out ($04),a
+	jp _keypad_scan
+	
+
+	;exx
+	;push de
+	;push bc
+	;exx
+	;pop bc
+	;pop de
+	;ld a,b
+	;call _gadget1
+	;out ($04),a
+	;ld a,d
+	;cp 1
+	;jp z,_keypad_scan
+	;ld a,b
+	;call _gadget2
+	;out ($05),a
+	;ld a,d
+	;cp 2
+	;jp z,_keypad_scan
+	;ld a,c
+	;call _gadget1
+	;out ($06),a
+	;ld a,d
+	;cp 3
+	;jp z,_keypad_scan
+	;ld a,c
+	;call _gadget2
+	;out ($07),a
+	;jp _keypad_scan
+
+_gadget1:;Continuing to make things smaller...
+	srl a
+	srl a
+	srl a
+	srl a
+_hex_to_font:
+	ld hl,_font
+	ld b,0
+	ld c,a
+	add hl,bc
+	ld a,(hl)
+	ret
+
+_gadget2:
+	and %00001111
+	jr _hex_to_font
+
+
+_diagnostics:
+	ld ix,_font
+	ld a,%01111010;d
+	out ($00),a
+	ld a,%00001000;i
+	out ($01),a
+	ld a,%11101110;A
+	out ($02),a
+	ld a,%10111100;G
+	out ($03),a
+	in a,($0b)
+	and %00111111
+	cp %00011111;[GO]
+	jr nz,_diagnostics
+	ld hl,$2000
+;screen test
+_diagSCREEN:
+	dec hl
+	ld a,h
+	cp 0
+	jr nz,_diagSCREEN
+	ld a,l
+	cp 0
+	jr nz,_diagSCREEN
+_diagSCREEN0:
+	ld a,%11111111
+	out ($00),a
+	out ($01),a
+	out ($02),a
+	out ($03),a
+	out ($04),a
+	out ($05),a
+	out ($06),a
+	out ($07),a
+	in a,($0b)
+	and %00111111
+	cp %00011111;[GO]
+	jr nz,_diagSCREEN0
+	ld hl,$2000
+_diagSCREEN01:
+	dec hl
+	ld a,h
+	cp 0
+	jr nz,_diagSCREEN01
+	ld a,l
+	cp 0
+	jr nz,_diagSCREEN01
+_diagSCREEN1:
+	ld a,%00000000
+	out ($00),a
+	out ($01),a
+	out ($02),a
+	out ($03),a
+	out ($04),a
+	out ($05),a
+	out ($06),a
+	out ($07),a
+	in a,($0b)
+	and %00111111
+	cp %00011111;[GO]
+	jr nz,_diagSCREEN1
+	ld hl,$2000
+_diagSCREEN11:
+	dec hl
+	ld a,h
+	cp 0
+	jr nz,_diagSCREEN11
+	ld a,l
+	cp 0
+	jr nz,_diagSCREEN11
+_diagSCREEN2:
+	ld a,%10101010
+	out ($00),a
+	out ($01),a
+	out ($02),a
+	out ($03),a
+	out ($04),a
+	out ($05),a
+	out ($06),a
+	out ($07),a
+	in a,($0b)
+	and %00111111
+	cp %00011111;[GO]
+	jr nz,_diagSCREEN2
+	ld hl,$2000
+_diagSCREEN21:
+	dec hl
+	ld a,h
+	cp 0
+	jr nz,_diagSCREEN21
+	ld a,l
+	cp 0
+	jr nz,_diagSCREEN21
+_diagSCREEN3:
+	ld a,%01010101
+	out ($00),a
+	out ($01),a
+	out ($02),a
+	out ($03),a
+	out ($04),a
+	out ($05),a
+	out ($06),a
+	out ($07),a
+	in a,($0b)
+	and %00111111
+	cp %00011111;[GO]
+	jr nz,_diagSCREEN3
+	ld hl,$2000
+_diagSCREEN31:
+	dec hl
+	ld a,h
+	cp 0
+	jr nz,_diagSCREEN31
+	ld a,l
+	cp 0
+	jr nz,_diagSCREEN31
+;Buzzer test
+_diagBUZZER:
+	ld a,$80
+_diagBUZZER1:
+	dec a
+	cp 0
+	jr nz,_diagBUZZER1
+	out ($0C),a
+	in a,($0b)
+	and %00111111
+	cp %00011111;[GO]
+	jr nz,_diagBUZZER
+	ld hl,$2000
+_diagBUZZER11:
+	dec hl
+	ld a,h
+	cp 0
+	jr nz,_diagBUZZER11
+	ld a,l
+	cp 0
+	jr nz,_diagBUZZER11
+;Keypad test
+_stage0:
+        ld a,%11111100;0
+        out ($07),a
+        in a,($08);keypad column 0
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00011111;[0]
+        jp nz,_stage0
+_stage1:
+        ld a,%01100000;1
+        out ($07),a
+        in a,($08);keypad column 0
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00101111;[0]
+        jp nz,_stage1
+_stage4:
+        ld a,%01100110;4
+        out ($07),a
+        in a,($08);keypad column 0
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00110111;[0]
+        jp nz,_stage4
+_stage7:
+        ld a,%11100000;7
+        out ($07),a
+        in a,($08);keypad column 0
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00111011;[0]
+        jp nz,_stage7
+_stageA:
+        ld a,%11101110;A
+        out ($07),a
+        in a,($08);keypad column 0
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00111101;[0]
+        jp nz,_stageA
+_stageD:
+        ld a,%01111010;d
+        out ($07),a
+        in a,($08);keypad column 0
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00111110;[0]
+        jp nz,_stageD
+_stageAm:
+        ld a,%11101110;A
+        out ($06),a
+        ld a,%00000010;-
+        out ($07),a
+        in a,($09);keypad column 1
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00011111;[Am]
+        jp nz,_stageAm
+_stage2:
+        ld a,%11011010;2
+        out ($07),a
+        in a,($09);keypad column 1
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00101111;[2]
+        jp nz,_stage2
+_stage5:
+        ld a,%10110110;5
+        out ($07),a
+        in a,($09);keypad column 1
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00110111;[5]
+        jp nz,_stage5
+_stage8:
+        ld a,%11111110;8
+        out ($07),a
+        in a,($09);keypad column 1
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00111011;[8]
+        jp nz,_stage8
+_stageB:
+        ld a,%00111110;b
+        out ($07),a
+        in a,($09);keypad column 1
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00111101;[B]
+        jp nz,_stageB
+_stageE:
+        ld a,%10011110;E
+        out ($07),a
+        in a,($09);keypad column 1
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00111110;[E]
+        jp nz,_stageE
+
+_stageAp:
+        ld a,%11101110;A
+        out ($06),a
+        ld a,%11001110;P
+        out ($07),a
+        in a,($0A);keypad column 2
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00011111;[A+]
+        jp nz,_stageAp
+_stage3:
+        ld a,%11110010;2
+        out ($07),a
+        in a,($0A);keypad column 2
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00101111;[3]
+        jp nz,_stage3
+_stage6:
+        ld a,%10111110;6
+        out ($07),a
+        in a,($0A);keypad column 2
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00110111;[6]
+        jp nz,_stage6
+_stage9:
+        ld a,%11110110;9
+        out ($07),a
+        in a,($0A);keypad column 2
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00111011;[9]
+        jp nz,_stage9
+_stageC:
+        ld a,%10011100;C
+        out ($07),a
+        in a,($0A);keypad column 2
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00111101;[C]
+        jp nz,_stageC
+_stageF:
+        ld a,%10001110;F
+        out ($07),a
+        in a,($0A);keypad column 2
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00111110;[F]
+        jp nz,_stageF
+_stageGO:
+        ld a,%10111100;G
+        out ($06),a
+        ld a,%11111100;O
+        out ($07),a
+        in a,($0B);keypad column 3
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00011111;[GO]
+        jp nz,_stageGO
+_stageQ:
+        ld a,%11111101;Q
+        out ($07),a
+        in a,($0B);keypad column 3
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00101111;[GO]
+        jp nz,_stageQ
+_stageWR:
+        ld a,%01111110;""""W""""
+        out ($06),a
+        ld a,%00001010;r
+        out ($07),a
+        in a,($0B);keypad column 3
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00110111;[WR]
+        jp nz,_stageWR
+_stageRD:
+        ld a,%00001010;r
+        out ($06),a
+        ld a,%01111010;d
+        out ($07),a
+        in a,($0B);keypad column 3
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00111011;[RD]
+        jp nz,_stageRD
+_stageCE:
+        ld a,%10011100;C
+        out ($06),a
+        ld a,%10011110;E
+        out ($07),a
+        in a,($0B);keypad column 3
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00111101;[GO]
+        jp nz,_stageCE
+_stageOFF:
+        ld a,%11111100;O
+        out ($05),a
+        ld a,%10001110;F
+        out ($06),a
+        ld a,%10001110;F
+        out ($07),a
+        in a,($0B);keypad column 3
+        and %00111111;Mask out pins used for general purpose input.
+        cp %00111110;[GO]
+        jp nz,_stageOFF
+;RAM test
+        ld hl,$FFFF;Base RAM: $E000-$FFFF
+        ld b,0
+_all_zero:
+        ld (hl),b
+        dec hl
+        ld a,h
+        cp $df
+        jr nz,_all_zero
+        ld a,l
+        cp $ff
+        jr nz,_all_zero
+        ld hl,$FFFF
+_all_zero_check:
+        ld a,(hl)
+        cp $00
+        jp nz,_fail
+        dec hl
+        ld a,h
+        cp $df
+        jr nz,_all_zero_check
+        ld a,l
+        cp $ff
+        jr nz,_all_zero_check
+        ld hl,$FFFF;Base RAM: $E000-$FFFF
+        ld b,$ff
+_all_one:
+        ld (hl),b
+        dec hl
+        ld a,h
+        cp $df
+        jr nz,_all_one
+        ld a,l
+        cp $ff
+        jr nz,_all_one
+        ld hl,$FFFF
+_all_one_check:
+        ld a,(hl)
+        cp $ff
+        jp nz,_fail
+        dec hl
+        ld a,h
+        cp $df
+        jr nz,_all_one_check
+        ld a,l
+        cp $ff
+        jr nz,_all_one_check
+        ld hl,$FFFF;Base RAM: $E000-$FFFF
+        ld b,%10101010
+_all_pattern_0:
+        ld (hl),b
+        dec hl
+        ld a,h
+        cp $df
+        jr nz,_all_pattern_0
+        ld a,l
+        cp $ff
+        jr nz,_all_pattern_0
+        ld hl,$FFFF
+_all_pattern_0_check:
+        ld a,(hl)
+        cp %10101010
+        jp nz,_fail
+        dec hl
+        ld a,h
+        cp $df
+        jr nz,_all_pattern_0_check
+        ld a,l
+        cp $ff
+        jr nz,_all_pattern_0_check
+        ld hl,$FFFF;Base RAM: $E000-$FFFF
+        ld b,%01010101
+_all_pattern_1:
+        ld (hl),b
+        dec hl
+        ld a,h
+        cp $df
+        jr nz,_all_pattern_1
+        ld a,l
+        cp $ff
+        jr nz,_all_pattern_1
+        ld hl,$FFFF
+_all_pattern_1_check:
+        ld a,(hl)
+        cp %01010101
+        jp nz,_fail
+        dec hl
+        ld a,h
+        cp $df
+        jr nz,_all_pattern_1_check
+        ld a,l
+        cp $ff
+        jr nz,_all_pattern_1_check
+_pass:
+        ld a,%00001010;r
+        out ($00),a
+        ld a,%11001110;P
+        out ($04),a
+        ld a,%11101110;A
+        out ($05),a
+        ld a,%10110110;S
+        out ($06),a
+        ld a,%10110110;S
+        out ($07),a
+        jr _pass
+_fail:
+        ld a,%00001010;r
+        out ($00),a
+        ld a,%10001110;F
+        out ($04),a
+        ld a,%11101110;A
+        out ($05),a
+        ld a,%00001000;i
+        out ($06),a
+        ld a,%00011100;L
+        out ($07),a
+        jr _fail
+
+
+_font:
+db %11111100;0
+db %01100000;1
+db %11011010;2
+db %11110010;3
+db %01100110;4
+db %10110110;5
+db %10111110;6
+db %11100000;7
+db %11111110;8
+db %11110110;9
+db %11101110;A
+db %00111110;b
+db %10011100;C
+db %01111010;d
+db %10011110;E
+db %10001110;F
+db %00000001;decimal point
+
+_cart_header:;Used to detect if a cartridge containing QK-1 code is inserted.
+db $e2
+db $9a
+db $a7
+db $0a

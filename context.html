@@ -3,30 +3,23 @@
 <title>QK-1 Reasoning for Existance</title>
 </head>
 <body>
-<center>
 <b>Abstract</b>
-<p>Think about your "dream computer". If your <i>normal</i> it's probably a contemporary gaming PC.</p>
-<p>Not me though. Oh no! That would make too much sense!</p>
+<p>Everyone in the past 20+ years has interacted with a cheap nasty four function calculator. The things probably cost a dozen or two cents to make and are full on omnipresent at this point. I can guarantee that if you went abroad to some of the most exploited global south countries (eg: South Sudan) and showed the people there a dollar store calculator <i>everyone would recognize it.</i> Hell, most of them probably used one at some point!</p>
 
-<!-- Qwerty Keyboard's 8 steps to manufactured ewaste! -->
+<p>Personally I find the fact we can metaphorically flood the earth with calculators is an incredible technological and human achievement! I find it somewhat.... Humbling.</p>
 
-<b>Sharp EL506P Clones and Dollar Tree</b>
-<p>For a handful of years, Dollar Tree sold Sharp EL506P clones (Branded "Jot Scientific Calculator", "56 function Electronic Calculator"). Unfortunately, I believe their discontinued now. Damn shame, because those things where AWESOME!</p>
-<p>Back when I was in 9th grade, (so, ~2019?) I looked at one of these and went "you know, there's probably a full fledged program rom based computer in there!"</p>
-<i>Sidebar</i>
-<p>Which, raises the question "Are the Sharp clones finite state machines or turing machines?" with the answer being <i>maybe some specimens?</i> Rule number one of China is that all their generic products are bootlegs of some initial product. Yes. ALL of them!</p>
-<p>Rule number two of China is that domestically produced bootleg products are NOT immune from being bootlegged, meaning several, mostly functionally equivalent, designs exist for the same product. Yes, this applies to silicon die layouts too. It IS feasable that some EL506P clone chip exists out their that has more in common with the TI-7. My microscope slide specimen seems to be a finite state machine, and is different from the one ElectronUpdate decapped.</p>
-<i>Alright, sidebar over.</i>
-<p>But, wouldn't it be great if these calculators where instead general purpose computers? (Yes, I know about smartphones, SHUT UP) And thus, the QK-1!</p>
-<b>Step 1: Secure the Keys!</b>
-<p>The idea? Take (what is essentially) an 8 bit home microcomputer from the late 70s/early 80s and *CRUSH* it all down onto a single silicon die. Do all the same cost reductions we already do with 4 function calculators (like using COB IC "packaging" technology) for <b>*ULTRA*</b> cost reduction, throw a solar panel on it, and Bob's your uncle! Originally the ultimate end MSRP was $1, but with how late state capitalism is shitting itself faster and faster, it wouldn't even be ABLE to cost only $1! (Hell, the 4 function calculators THEMSELVES are rising in MSRP!). ~$5 seems like a reasonable super late game goal.</p>
-<p>But, what "super family" of an architecture would I go with?</p>
-<b>Trying the 6502</b>
-<p>The venerable 6502 was the FIRST cpu to pop into my head. (thanks David Murry...)</p>
-<p>The 6502 presents quite a few benefits. It's pipeline is fairly efficient, with instuctions taking ~2 clock cycles to execute. It's simple both in software AND hardware. It implements a fairly small set of general purpose instructions, with the design of the 6502 in silicon reflecting that by both being simple and having a small footprint (Smaller design=more chips from wafer=increased yield=lower cost per chip=Me getting a manufacturing nerd orgasm).</p>
-<p>Thing is, I don't like the 6502's programming model. I don't like it's assembly language. Tried getting into it, but only having three general purpose registers means your constantly moving crap from the registers to either BANK0 or somewhere in memory where you'll <i>probably</i> forget about it 6 months later.</p>
-<b>The Z80</b>
-<p>Well, whats the second most known vintage CPU? The Z80!</p>
-</center>
+<p>The real inspiration for the QK-1 are those "Chinese Special" Sharp EL506 clones. The "56 function" scientific calculators that've existed since I think the mid to late 80s? Anyway Dollar Tree sold these calculators under the "Jot" brand in the late 2010s. Ignoring build quality these things where really nice because they where compact and feature rich for only $1 USD. Really wish they still sold them!</p>
+
+<p>Fun fact: I decapped a couple of my EL506 clones alongside the regular four function calculators and the scientific calculators have smaller dies which means they're <i>manufactured on a smaller more advanced process node.</i></p>
+
+<p>So there I was staring at my EL506 clone during ~2018 or something and I thought to myself: "If modern technology means we can put an entire scientific calculator on one microscopic ultra cheap silicon die, then why not a fully programable computer?" So I had my nonexistant engineers work on the problem.</p>
+
+<p>Obviously it couldn't be a very complex or powerful computer, limited die space and all that, but it didn't have to be. Just take one of the many microprocessor trainers from the 1970's and crush it all down to a sub 4mm<super>2</super> silicon chip!</p>
+
+<p>Of course the QK-1 ever becoming that ultra cheap and integrated is a complete fantasy. (Most people have fantasies about scenarios involving sex. <i>Mine is this.)</i> Developing an ASIC is <b>FANTASTICALLY</b> expensive! But hey I can always get fairly close with FPGAs, and there's always the possibility of the Chinese cloning the thing! Infact <i>tricking the Chinese into cloning the QK-1 is something I've brainstomed.</i> I just want the thing to exist! I don't need to make a profit off it....</p>
+
+<p>It's amusing. You have all these modern 8 bit """"retro"""" computers like David's Commander X16. Full on whiz-bang machines with impressive graphics and sound capabilities.</p>
+
+<p>Meanwhile I'm over here going "What if Z80 but in cheap calculator" lmfao. Eh, there is RISC-V which is FOSS and thus no licensing costs. Issue is RISC-V is <b>JUST</b> the ISA and you have so much god damn fragmentation with that architecture.</p>
 </body>
 <html>

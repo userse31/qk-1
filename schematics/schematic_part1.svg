@@ -23,14 +23,14 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="1.4142135"
-     inkscape:cx="393.15139"
-     inkscape:cy="368.0491"
-     inkscape:window-width="1239"
-     inkscape:window-height="960"
+     inkscape:zoom="7.9999996"
+     inkscape:cx="552.06253"
+     inkscape:cy="317.50001"
+     inkscape:window-width="1708"
+     inkscape:window-height="889"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="0"
+     inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      showgrid="false" />
   <defs
@@ -363,14 +363,14 @@
     <text
        xml:space="preserve"
        style="font-size:3.52777px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3;stroke-opacity:1"
-       x="69.972359"
-       y="32.7383"
+       x="71.624062"
+       y="32.925388"
        id="text57"><tspan
          sodipodi:role="line"
          id="tspan57"
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3"
-         x="69.972359"
-         y="32.7383">Z80_IORQ</tspan></text>
+         x="71.624062"
+         y="32.925388">KEYPAD_RD</tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
        d="M 61.611935,31.768886 H 56.885633"
@@ -3420,5 +3420,287 @@
        style="fill:none;stroke:#000000;stroke-width:0.3"
        d="m 101.35529,146.7009 v 4.86431"
        id="path81" />
+    <g
+       id="g14"
+       transform="matrix(-0.6,0,0,-0.6,255.25136,98.295766)">
+      <path
+         sodipodi:type="star"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+         id="path13"
+         inkscape:flatsided="true"
+         sodipodi:sides="3"
+         sodipodi:cx="183.28839"
+         sodipodi:cy="23.631521"
+         sodipodi:r1="2.5308206"
+         sodipodi:r2="1.9832784"
+         sodipodi:arg1="1.0460006"
+         sodipodi:arg2="2.0931981"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="m 184.55642,25.82176 -3.79885,-2.18721 3.79361,-2.196297 z"
+         inkscape:transform-center-x="-0.0098903907"
+         inkscape:transform-center-y="-0.36935382" />
+      <path
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+         d="m 180.52177,21.295 v 4.726305"
+         id="path14" />
+    </g>
+    <g
+       id="g16"
+       transform="matrix(-0.6,0,0,-0.6,255.25136,94.162766)">
+      <path
+         sodipodi:type="star"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+         id="path15"
+         inkscape:flatsided="true"
+         sodipodi:sides="3"
+         sodipodi:cx="183.28839"
+         sodipodi:cy="23.631521"
+         sodipodi:r1="2.5308206"
+         sodipodi:r2="1.9832784"
+         sodipodi:arg1="1.0460006"
+         sodipodi:arg2="2.0931981"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="m 184.55642,25.82176 -3.79885,-2.18721 3.79361,-2.196297 z"
+         inkscape:transform-center-x="-0.0098903907"
+         inkscape:transform-center-y="-0.36935382" />
+      <path
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+         d="m 180.52177,21.295 v 4.726305"
+         id="path16" />
+    </g>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+       d="m 144.57521,84.189246 h -2.99717"
+       id="path21" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+       d="m 144.57521,79.955906 h -2.99717"
+       id="path22" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+       d="m 146.996,80.096956 h 2.93953"
+       id="path26" />
+    <circle
+       style="fill:none;stroke:#000000;stroke-width:0.3"
+       id="circle28"
+       cx="141.57591"
+       cy="85.909882"
+       r="0.28063297" />
+    <circle
+       style="fill:none;stroke:#000000;stroke-width:0.3"
+       id="circle29"
+       cx="141.62939"
+       cy="79.985931"
+       r="0.28063297" />
+    <circle
+       style="fill:none;stroke:#000000;stroke-width:0.3"
+       id="circle30"
+       cx="141.69553"
+       cy="84.153122"
+       r="0.28063297" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+       d="m 149.86691,84.189246 h -2.99717"
+       id="path31" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.52777px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3;stroke-opacity:1"
+       x="128.68646"
+       y="87.152893"
+       id="text46"><tspan
+         sodipodi:role="line"
+         id="tspan46"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3"
+         x="128.68646"
+         y="87.152893">KEYPAD_RD</tspan></text>
+    <g
+       id="g63"
+       transform="translate(10.259725,-51.282198)">
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+         id="rect46"
+         width="1.8747815"
+         height="4.157124"
+         x="-83.991264"
+         y="72.983498"
+         transform="rotate(-90)" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.3"
+         d="m 71.140467,83.020597 h 1.824114"
+         id="path62" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.3"
+         d="m 77.174076,83.020597 h 1.683798"
+         id="path63" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.3"
+         d="m 78.761577,83.020597 h 1.683798"
+         id="path82" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.3"
+         d="m 80.349078,83.020597 h 1.683798"
+         id="path83" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.3"
+         d="m 80.878245,83.020597 h 1.683798"
+         id="path84" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:1.41111px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3;stroke-opacity:1"
+       x="85.314484"
+       y="32.202606"
+       id="text68"><tspan
+         sodipodi:role="line"
+         id="tspan68"
+         style="font-size:1.41111px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3"
+         x="85.314484"
+         y="32.202606">15K</tspan></text>
+    <circle
+       style="fill:none;stroke:#000000;stroke-width:0.3"
+       id="circle82"
+       cx="92.749199"
+       cy="31.781689"
+       r="0.28063297" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.52777px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3;stroke-opacity:1"
+       x="161.75922"
+       y="81.277267"
+       id="text85"><tspan
+         sodipodi:role="line"
+         id="tspan85"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3"
+         x="161.75922"
+         y="81.277267">KEYPAD_COL0</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.3"
+       d="m 141.57804,79.955905 v 4.233341"
+       id="path86" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.3"
+       d="m 141.58516,85.923439 h -3.3073"
+       id="path87" />
+    <g
+       id="g92"
+       transform="matrix(-0.6,0,0,-0.6,255.25136,106.2333)">
+      <path
+         sodipodi:type="star"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+         id="path88"
+         inkscape:flatsided="true"
+         sodipodi:sides="3"
+         sodipodi:cx="183.28839"
+         sodipodi:cy="23.631521"
+         sodipodi:r1="2.5308206"
+         sodipodi:r2="1.9832784"
+         sodipodi:arg1="1.0460006"
+         sodipodi:arg2="2.0931981"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="m 184.55642,25.82176 -3.79885,-2.18721 3.79361,-2.196297 z"
+         inkscape:transform-center-x="-0.0098903907"
+         inkscape:transform-center-y="-0.36935382" />
+      <path
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+         d="m 180.52177,21.295 v 4.726305"
+         id="path92" />
+    </g>
+    <g
+       id="g98"
+       transform="matrix(-0.6,0,0,-0.6,255.25136,102.10028)">
+      <path
+         sodipodi:type="star"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+         id="path93"
+         inkscape:flatsided="true"
+         sodipodi:sides="3"
+         sodipodi:cx="183.28839"
+         sodipodi:cy="23.631521"
+         sodipodi:r1="2.5308206"
+         sodipodi:r2="1.9832784"
+         sodipodi:arg1="1.0460006"
+         sodipodi:arg2="2.0931981"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="m 184.55642,25.82176 -3.79885,-2.18721 3.79361,-2.196297 z"
+         inkscape:transform-center-x="-0.0098903907"
+         inkscape:transform-center-y="-0.36935382" />
+      <path
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+         d="m 180.52177,21.295 v 4.726305"
+         id="path98" />
+    </g>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+       d="m 144.57521,92.126751 h -2.99717"
+       id="path99" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+       d="m 144.57521,87.893411 h -2.99717"
+       id="path100" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+       d="m 146.996,88.034461 h 2.93953"
+       id="path120" />
+    <circle
+       style="fill:none;stroke:#000000;stroke-width:0.3"
+       id="circle121"
+       cx="141.62939"
+       cy="87.923439"
+       r="0.28063297" />
+    <circle
+       style="fill:none;stroke:#000000;stroke-width:0.3"
+       id="circle122"
+       cx="141.69553"
+       cy="92.09063"
+       r="0.28063297" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-opacity:1"
+       d="m 149.86691,92.126751 h -2.99717"
+       id="path122" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.3"
+       d="m 141.57804,87.89341 v 4.233341"
+       id="path123" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.52777px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3;stroke-opacity:1"
+       x="161.75922"
+       y="85.510605"
+       id="text131"><tspan
+         sodipodi:role="line"
+         id="tspan131"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3"
+         x="161.75922"
+         y="85.510605">KEYPAD_COL1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52777px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3;stroke-opacity:1"
+       x="161.75922"
+       y="89.214775"
+       id="text132"><tspan
+         sodipodi:role="line"
+         id="tspan132"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3"
+         x="161.75922"
+         y="89.214775">KEYPAD_COL2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52777px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3;stroke-opacity:1"
+       x="161.75922"
+       y="92.918945"
+       id="text133"><tspan
+         sodipodi:role="line"
+         id="tspan133"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3"
+         x="161.75922"
+         y="92.918945">KEYPAD_COL3</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.3"
+       d="m 141.57804,84.189241 v 4.233341"
+       id="path133" />
   </g>
 </svg>

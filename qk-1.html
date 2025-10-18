@@ -283,10 +283,12 @@ button.keypad {
 	</table>
 </div>
 </div>
-<p id="a">Cartridge ($1000-$1fff):<select id="cart">
+<input type="checkbox" id="flicker_select" onclick="set_reduce_flicker()" checked></input>
+<label for="flicker_select">Reduce Flicker</label>
+<p id="a">Cartridge<select id="cart">
 	<option value="empty">Empty</option>
 	<option value="numattack">Number Attack!</option>
-	<option value="battery_sram">4k SRAM</option>
+	<option value="battery_sram">8k SRAM</option>
 </select>
 <button onclick="bank_manager('cart')">Set Cart</button>
 <button onclick="cart_extract()">Extract</button>
@@ -595,14 +597,9 @@ function get_keypad_states(){
 	return key_states;
 }
 
-function tick(){
-	for(var i=0;i<500;i++){//~200khz
-	qk1.run_instruction();
-	}
-	keys=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],]
+function clear_keys(){
+	keys=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
 }
-//45khz,200khz
-//200khz=200000 cycles a second. 200k/100=2000 times
 
 function bank_manager(x){
 	switch(document.getElementById('cart').value){
@@ -720,7 +717,53 @@ function keyboard_manager(x){
 			break;
 	}
 }
-setInterval(function(){tick()},100);
+
+function clear_display(){
+	if(reduce_flicker){
+		return;
+	}
+	draw_digit(1,0);
+	draw_digit(2,0);
+	draw_digit(3,0);
+	draw_digit(4,0);
+	draw_digit(5,0);
+	draw_digit(6,0);
+	draw_digit(7,0);
+	draw_digit(8,0);
+}
+
+var reduce_flicker=1;
+function set_reduce_flicker(){
+	if(document.getElementById("flicker_select").checked){
+		reduce_flicker=1;
+	}else{
+		reduce_flicker=0;
+	}
+}
+
+var tick_count=0;
+var CLEAR_DISP_THRESHOLD=100;
+var CLEAR_DISP_THRESHOLD2=10;
+
+function tick(){//Called 100 times a second.
+	//We are not cycle accurate, so let's just say.... Idk... Fricken.... 10 clock cycles/instruction on average?
+	//We also don't want to hammer the CPU.
+	for(var i=0;i<1000;i++){//~1Mhz?
+	qk1.run_instruction();
+	}
+	tick_count=(tick_count+1)%65536;
+	clear_keys();
+	if((tick_count%CLEAR_DISP_THRESHOLD==0)){
+		clear_display();
+		tick_count=0;
+	}
+}
+//45khz,200khz
+//200khz=200000 cycles a second. 200k/100=2000 times
+
+//1000ms/100ms=10 times a second.
+//1000ms/10ms=100 times a second.
+setInterval(function(){tick()},10);
 window.onload=function(){
 	document.getElementsByTagName('body')[0].onkeydown=function (e){
 		keyboard_manager(e.keyCode);

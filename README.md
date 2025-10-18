@@ -1,10 +1,14 @@
 # qk-1
-An analog for my “dream computer”.
 
-An emulator for the QK-1 microcomputer.
+An emulator for the QK-1 Z80 microprocessor trainer.
 
-**THIS EMULATOR WAS CREATED AS AN ANALOG FOR THE REAL DEVICE!**
+With the first prototype now in existance (which I am STILL very excited about!) this emulator now serves as both a "demo" of sorts and as a method of checking software before deployment.
 
-This computer has yet to be created physically. I created this emulator as a general end design goal. Things **100%** will change!
+The emulator currently has the following issues:
 
-That said, feel free to play with it.
+-Inaccurate screen emulation. (Lots of flickering...)
+-No sound.
+
+If you want the full experience, well, you can always build the device! Schematics are included.
+
+Or you could be incredibly patiant. I do plan on creating both a surface mount and FPGA version. This thing _is_ supposed to be as cheap as possible after all!

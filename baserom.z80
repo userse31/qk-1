@@ -8,87 +8,82 @@ _reset:;reset vector
 	;Check if [?] key is held down. If so, enter diagnostics/selftest "mode".
 	in a,($0b);2
 	and %00111111;2
-	jr _init;2 bytes
+	jr _initgadget0;2 bytes
 	nop
 _rst_08:
 	jp $E008;3
+_initgadget0:
+	cp %00101111;[?];2
 	nop;1
-	nop;1
-	nop;1
-	nop;1
-	nop;1
+	jr _initgadget1;2
 _rst_10:
 	jp $E010;3
-	nop;1
-	nop;1
-	nop;1
-	nop;1
-	nop;1
+_initgadget1:
+	jp z,_diagnostics;3
+	jr _initgadget2;2
 _rst_18:
 	jp $E018;3
+_initgadget2:
+	;Check if base of cartridge rom ($2000) contains the magic number. But, if [CE] is held down, don't autoboot.
+	;The header is the unicode trans symbol (not the trans flag emoji, that takes up 8 bytes or something). The reason? To piss the transphobes off.
+	in a,($0B);2
 	nop;1
-	nop;1
-	nop;1
-	nop;1
-	nop;1
+	jr _initgadget3;2
 _rst_20:
 	jp $E020;3
+_initgadget3:
+	and %00111111;2
 	nop;1
-	nop;1
-	nop;1
-	nop;1
-	nop;1
+	jr _initgadget4;2
 _rst_28:
 	jp $E028;3
+_initgadget4:
+	cp %00111101;2
 	nop;1
-	nop;1
-	nop;1
-	nop;1
-	nop;1
+	jr _initgadget5
 _rst_30:
 	jp $E030;3
+_initgadget5:
+	jr z,_init0;2
 	nop;1
-	nop;1
-	nop;1
-	nop;1
-	nop;1
+	jr _init
 _rst_38:
 	jp $E038;3
-	nop;1
-	nop;1
-	nop;1
-	nop;1
-	nop;1
 _init:
-	cp %00101111;[?];2
-	jp z,_diagnostics
-	;Check if base of cartridge rom ($2000) contains the magic number. But, if [CE] is held down, don't autoboot.
-	in a,($0B)
-	and %00111111
-	cp %00111101
-	jr z,_init0
-	ld ix,_cart_header
-	ld iy,$2000
-	ld a,(ix+0)
-	cp (iy+0)
-	jp nz,_init0
-	ld a,(ix+1)
-	cp (iy+1)
-	jp nz,_init0
-	ld a,(ix+2)
-	cp (iy+2)
-	jp nz,_init0
-	ld a,(ix+3)
-	cp (iy+3)
-	jp z,$2004
+	ld ix,$2000;Beginning of cartridge ROM. 4
+_a3B:
+	ld a,(ix+0);3
+_a3E:
+	cp $E2;2
+	jr nz,_init0;2
+	ld a,(ix+1);3
+	cp $9A;2
+	jr nz,_init0;2
+	ld a,(ix+2);3
+_a4C:
+	cp $A7;2
+	jr nz,_init0;2
+	ld a,(ix+3);3
+	cp $0A;2
+_a55:
+	jp z,$2004;3
 
-_init0:
-	ld sp,$FFF0;Set stack pointer to top of base RAM.
-	exx
-	ld hl,$0000;Initial monitor address
-	ld bc,0;Input buffer
-	ld d,0;Input buffer offset
-	exx
+_init0:;$0058
+	ld sp,$FFF0;Set stack pointer to top of base RAM.;3
+	exx;1
+	ld hl,$0000;Initial monitor address 3
+	nop;1
+	jr _init1;2
+_nmi_0066:;For non maskable interrupts
+	jp $E066;3
+
+_init1:
+	ld bc,0;Input buffer; 3
+	exx;1
+	ld hl,$0000;Initial monitor address 3
+	ld bc,0;Input buffer 3
+	ld d,0;Input buffer offset 2
+	exx;1
 	ld iy,$FFF1
 _main:
 	;Print current address to left hand side of the screen.
@@ -348,15 +343,24 @@ _set_addr:
 	jp _debounce_loop
 _write_value:
 	exx
-	push hl
-	push bc
-	ld bc,0
+	ld a,d;Input buffer offset
+	cp $04;Do we have all 4 digits entered?
+	jr z,_write_value16
+_write_value8:
 	ld d,0
+	ld (hl),b
+	ld bc,0
 	inc hl
 	exx
-	pop bc
-	pop hl
+	jp _debounce_loop
+_write_value16:
+	ld d,0
 	ld (hl),b
+	inc hl
+	ld (hl),c
+	inc hl
+	ld bc,0
+	exx
 	jp _debounce_loop
 _user_defined:
 	jp _debounce_loop
